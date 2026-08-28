@@ -1,7 +1,7 @@
-[![Version](https://img.shields.io/pypi/v/diameter-synthesis)](https://github.com/BlueBrain/diameter-synthesis/releases)
-[![Build status](https://github.com/BlueBrain/diameter-synthesis/actions/workflows/run-tox.yml/badge.svg?branch=main)](https://github.com/BlueBrain/diameter-synthesis/actions)
+[![Version](https://img.shields.io/pypi/v/diameter-synthesis)](https://github.com/openbraininstitute/diameter-synthesis/releases)
+[![Build status](https://github.com/openbraininstitute/diameter-synthesis/actions/workflows/run-tox.yml/badge.svg?branch=main)](https://github.com/openbraininstitute/diameter-synthesis/actions)
 [![Codecov.io](https://codecov.io/github/BlueBrain/diameter-synthesis/coverage.svg?branch=main)](https://codecov.io/github/BlueBrain/diameter-synthesis?branch=main)
-[![License](https://img.shields.io/badge/License-GPLv3-blue)](https://github.com/BlueBrain/diameter-synthesis/blob/main/LICENSE.txt)
+[![License](https://img.shields.io/badge/License-GPLv3-blue)](https://github.com/openbraininstitute/diameter-synthesis/blob/main/LICENSE.txt)
 [![Documentation status](https://readthedocs.org/projects/diameter-synthesis/badge/?version=latest)](https://diameter-synthesis.readthedocs.io/)
 [![DOI](https://img.shields.io/badge/DOI-10.1016/j.celrep.2022.110586-blue)](https://doi.org/10.1016/j.celrep.2022.110586)
 
