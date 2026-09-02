@@ -196,18 +196,47 @@ def test_run_analysis(tmpdir, single_pop_data_dir, single_pop_diametrized_data_d
     )
 
     # Check results
-    assert sorted(
-        [i.relative_to(res_path).as_posix() for i in res_path.glob("**") if i != res_path]
-    ) == [
+    assert sorted(p.relative_to(res_path).as_posix() for p in res_path.rglob("*")) == [
         "apical_dendrite",
+        "apical_dendrite/L5_TPC_A_cumulative_section_path_distances_areas.pdf",
         "apical_dendrite/L5_TPC_A_cumulative_section_path_distances_areas_individual",
+        (
+            "apical_dendrite/L5_TPC_A_cumulative_section_path_distances_areas_individual/"
+            "0_L5_TPC_A_cumulative_section_path_distances_areas_C030796A-P3_lite.h5.pdf"
+        ),
+        "apical_dendrite/L5_TPC_A_cumulative_section_path_distances_volumes.pdf",
         "apical_dendrite/L5_TPC_A_cumulative_section_path_distances_volumes_individual",
+        (
+            "apical_dendrite/L5_TPC_A_cumulative_section_path_distances_volumes_individual/"
+            "0_L5_TPC_A_cumulative_section_path_distances_volumes_C030796A-P3_lite.h5.pdf"
+        ),
         "axon",
+        "axon/L5_TPC_A_cumulative_section_path_distances_areas.pdf",
         "axon/L5_TPC_A_cumulative_section_path_distances_areas_individual",
+        (
+            "axon/L5_TPC_A_cumulative_section_path_distances_areas_individual/"
+            "0_L5_TPC_A_cumulative_section_path_distances_areas_C030796A-P3_lite.h5.pdf"
+        ),
+        "axon/L5_TPC_A_cumulative_section_path_distances_volumes.pdf",
         "axon/L5_TPC_A_cumulative_section_path_distances_volumes_individual",
+        (
+            "axon/L5_TPC_A_cumulative_section_path_distances_volumes_individual/"
+            "0_L5_TPC_A_cumulative_section_path_distances_volumes_C030796A-P3_lite.h5.pdf"
+        ),
         "basal_dendrite",
+        "basal_dendrite/L5_TPC_A_cumulative_section_path_distances_areas.pdf",
         "basal_dendrite/L5_TPC_A_cumulative_section_path_distances_areas_individual",
+        (
+            "basal_dendrite/L5_TPC_A_cumulative_section_path_distances_areas_individual/"
+            "0_L5_TPC_A_cumulative_section_path_distances_areas_C030796A-P3_lite.h5.pdf"
+        ),
+        "basal_dendrite/L5_TPC_A_cumulative_section_path_distances_volumes.pdf",
         "basal_dendrite/L5_TPC_A_cumulative_section_path_distances_volumes_individual",
+        (
+            "basal_dendrite/L5_TPC_A_cumulative_section_path_distances_volumes_individual/"
+            "0_L5_TPC_A_cumulative_section_path_distances_volumes_C030796A-P3_lite.h5.pdf"
+        ),
+        "morphometrics.pdf",
     ]
 
     # Test with neither cumukative nor violin

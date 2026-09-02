@@ -12,12 +12,12 @@ from setuptools import setup
 reqs = [
     "click>=7.0",
     "jsonschema>=3",
-    "matplotlib>=3.4",
+    "matplotlib>=3.10,<3.11",
     "morphio>=3.3.4",
     "neurom>=3.0,<4.0",
     "numpy>=1.23",
     "pandas>=1.5",
-    "scipy>=1.6",
+    "scipy>=1.10",
     "tqdm>=4.50",
 ]
 
@@ -83,7 +83,6 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
-        "Programming Language :: Python :: 3.14",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],
 )
