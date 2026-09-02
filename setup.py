@@ -12,12 +12,12 @@ from setuptools import setup
 reqs = [
     "click>=7.0",
     "jsonschema>=3",
-    "matplotlib>=3.4",
+    "matplotlib>=3.10,<3.11",
     "morphio>=3.3.4",
     "neurom>=3.0,<4.0",
     "numpy>=1.23",
     "pandas>=1.5",
-    "scipy>=1.6",
+    "scipy>=1.10",
     "tqdm>=4.50",
 ]
 
@@ -56,7 +56,7 @@ setup(
     },
     license="Apache License 2.0",
     packages=find_namespace_packages(include=["diameter_synthesis*"]),
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     use_scm_version=True,
     setup_requires=[
         "setuptools_scm",
@@ -79,10 +79,10 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],
 )
