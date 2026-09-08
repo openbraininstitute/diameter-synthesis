@@ -6,24 +6,33 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  build-n-publish:
-    name: Build and publish on PyPI
+  build_sdist:
+    name: Build sdist
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
+
+      - name: Build distributions
+        run: pipx run build
+
+      - name: Check metadata
+        run: pipx run twine check dist/*
+
+      - uses: actions/upload-artifact@v4
         with:
-          enable-cache: true
-          cache-dependency-glob: pyproject.toml
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v5
+          name: build
+          path: dist
+
+  upload_sdist:
+    name: Upload sdist
+    needs: [build_sdist]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
         with:
-          python-version: "3.10"
-      - name: Build a wheel and a source tarball
-        run: |
-          uv pip install --system "setuptools>=42" build "setuptools_scm[toml]>=3.4"
-          python -m build -o dist
+          name: build
+          path: dist
+
       - name: Publish distribution package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
