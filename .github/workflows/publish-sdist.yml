@@ -11,13 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
       - name: Build a wheel and a source tarball
         run: |
-          pip install setuptools>=42 build setuptools_scm[toml]>=3.4
+          uv pip install --system "setuptools>=42" build "setuptools_scm[toml]>=3.4"
           python -m build -o dist
       - name: Publish distribution package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

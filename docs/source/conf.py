@@ -89,7 +89,6 @@ intersphinx_mapping = {
 
 def fix_signature(app, what, name, obj, options, signature, return_annotation):
     """Remove the module locations from signatures."""
-    # pylint: disable=unused-argument
     if signature:
         module_pattern = r"(.*)<module '(.*)' from '.*'>(.*)"
         match = re.match(module_pattern, signature)

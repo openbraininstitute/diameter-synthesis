@@ -156,7 +156,6 @@ def _sample_daughter_diameters(section, params, params_tree, rng=np.random):
     Returns:
        list: list of daughter diameters.
     """
-    # pylint: disable=too-many-locals,used-before-assignment
     major_sections = params_tree["major_sections"]
 
     apply_asymmetry = False
@@ -288,7 +287,6 @@ def _diametrize_neuron(params_tree, neuron, neurite_types, params, config, rng=n
         config (dict): general configuration parameters.
         rng (numpy.random.Generator): the random number generator to use.
     """
-    # pylint: disable=too-many-locals, too-many-branches
     major_sections = set()
     if params_tree["with_asymmetry"]:
         # Get sections on the major branch

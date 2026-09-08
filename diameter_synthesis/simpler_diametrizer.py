@@ -103,7 +103,6 @@ def plot_model(coeffs, pdf, title_str, all_lengths, all_diams, residues):
     plt.close()
 
 
-# pylint: disable=unused-argument
 def simpler_diametrizer(morphology, neurite_types, model_params, diam_params=None, rng=np.random):
     """Diametrize a morphology."""
     if not isinstance(neurite_types, list):

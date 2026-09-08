@@ -30,13 +30,15 @@ def test_build_model(single_pop, simpler_model_params, simpler_model_data):
     assert dictdiffer.diff(res_models_params, simpler_model_params, absolute_tolerance=1e-3)
 
 
-def test_build_model_missing_neurite_type(tmpdir, neuron, simpler_model_params, simpler_model_data):
+def test_build_model_missing_neurite_type(
+    tmp_path, neuron, simpler_model_params, simpler_model_data
+):
     """Test the build function with missing neurites of given types."""
     # Remove axon from neuron
     for sec in neuron.root_sections:
         if sec.type == SectionType.axon:
             neuron.delete_section(sec)
-    neuron_path = tmpdir / "neuron.swc"
+    neuron_path = tmp_path / "neuron.swc"
     neuron.write(neuron_path)
     single_pop = [nm.load_morphology(neuron_path)]
 

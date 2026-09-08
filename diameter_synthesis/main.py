@@ -31,7 +31,7 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 class NumpyEncoder(json.JSONEncoder):
     """Class to encode numpy arrays."""
 
-    def default(self, o):  # pylint: disable=method-hidden
+    def default(self, o):
         """Numpy encoder."""
         # pragma: no cover
         if isinstance(o, np.ndarray):
@@ -116,7 +116,7 @@ def run_models(config_file, plot, ext=".png"):
         plot (bool): plot the models once they are built.
         ext (str): the file extension used to export the plots.
     """
-    with open(config_file, "r", encoding="utf-8") as filename:
+    with open(config_file, encoding="utf-8") as filename:
         config = json.load(filename)
 
     L.info("Loading morphologies...")
@@ -183,10 +183,10 @@ def run_diameters(config_file, models_params_file):
         config_file (str): the path to the configuration file.
         models_params_file (str): the path to the file containing the model parameters.
     """
-    with open(config_file, "r", encoding="utf-8") as filename:
+    with open(config_file, encoding="utf-8") as filename:
         config = json.load(filename)
 
-    with open(models_params_file, "r", encoding="utf-8") as filename:
+    with open(models_params_file, encoding="utf-8") as filename:
         models_params = json.load(filename)
 
     for model in config["models"]:
@@ -216,5 +216,5 @@ def diametrize_single_neuron(neuron, neurite_types=None):
     """
     if neurite_types is None:
         neurite_types = ["basal_dendrite", "apical_dendrite"]
-    model, _ = build_simpler_model([nm.load_neuron(neuron)], {"neurite_types": neurite_types})
+    model, _ = build_simpler_model([nm.load_morphology(neuron)], {"neurite_types": neurite_types})
     simpler_diametrizer(neuron, neurite_types, model)
