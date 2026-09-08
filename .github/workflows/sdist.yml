@@ -1,9 +1,14 @@
-name: Publish sdist tarball to PyPi
+name: PyPI
 
 on:
+  workflow_dispatch:
+  pull_request:
   push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+    branches:
+      - main
+  release:
+    types:
+      - published
 
 jobs:
   build_sdist:
@@ -12,8 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build distributions
-        run: pipx run build
+      - name: Build SDist
+        run: pipx run build --sdist
 
       - name: Check metadata
         run: pipx run twine check dist/*
@@ -27,15 +32,14 @@ jobs:
     name: Upload sdist
     needs: [build_sdist]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: build
           path: dist
 
-      - name: Publish distribution package to PyPI
+      - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: ${{ secrets.DEVPI_USER }}
-          password: ${{ secrets.DEVPI_PASSWORD }}
-          repository_url: ${{ secrets.DEVPI_URL }}
