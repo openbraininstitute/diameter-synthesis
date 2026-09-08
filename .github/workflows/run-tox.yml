@@ -56,7 +56,13 @@ jobs:
       run: uv pip install --system tox tox-gh-actions
     - name: Run tox with latest versions
       if: ${{ matrix.min_versions == 'latest_versions' }}
-      run: tox
+      run: |
+        case "${{ matrix.python-version }}" in
+          3.10) tox run -e py310 ;;
+          3.11) tox run -e py311,lint ;;
+          3.12) tox run -e py312,docs ;;
+          3.13) tox run -e py313,check-packaging,coverage ;;
+        esac
     - name: Run tox with min versions
       if: ${{ matrix.min_versions == 'min_versions' }}
       run: tox run -e min_versions
