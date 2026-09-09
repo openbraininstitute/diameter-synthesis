@@ -9,6 +9,7 @@ build-backend = "setuptools.build_meta"
 name = "diameter-synthesis"
 authors = [
     {name = "Blue Brain Project, EPFL"},
+    {name = "Open Brain Institute"},
 ]
 description = "Diametrize cells."
 readme = "README.md"
