@@ -159,8 +159,6 @@ def test_build_small_trunk_diam_warning(config, model_params, neuron, caplog):
 
 def test_select_model():
     """Test the _select_model function."""
-    # pylint: disable=protected-access
-    # pylint: disable=no-member
     f_generic = build_diameters._select_model("generic")
     assert f_generic.args == (
         {
@@ -187,7 +185,6 @@ def test_select_model():
 
 def test_sample_sibling_ratio(model_params):
     """Test the _sample_sibling_ratio function."""
-    # pylint: disable=protected-access
     d_generic = build_diameters._sample_sibling_ratio(
         model_params, "basal_dendrite", False, mode="generic"
     )
@@ -204,7 +201,6 @@ def test_sample_sibling_ratio(model_params):
 
 def test_sample_diameter_power_relation(model_params):
     """Test the _sample_diameter_power_relation function."""
-    # pylint: disable=protected-access
     d_generic = build_diameters._sample_diameter_power_relation(
         model_params, "basal_dendrite", False, mode="generic"
     )
@@ -228,7 +224,6 @@ def test_sample_diameter_power_relation(model_params):
 
 def test_sample_daughter_diameters(neuron, model_params):
     """Test the _sample_diameter_power_relation function."""
-    # pylint: disable=protected-access
     param_tree = {
         "mode_sibling": "threshold",
         "mode_diameter_power_relation": "threshold",

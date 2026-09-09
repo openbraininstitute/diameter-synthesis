@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
+import subprocess
 from pathlib import Path
 
 import dictdiffer
@@ -17,7 +18,6 @@ from diameter_synthesis import main
 
 
 def test_cli(cli_runner):
-    # pylint: disable=unused-argument
     """Test the CLI."""
     result = cli_runner.invoke(
         cli.main,
@@ -30,27 +30,32 @@ def test_cli(cli_runner):
 
 
 @pytest.mark.parametrize("command", ["run_models", "run_diameters", "plot_diff", "run_analysis"])
-def test_entry_points(script_runner, command):
+def test_entry_points(command):
     """Test the entry points."""
-    ret = script_runner.run("diameter-synthesis", command)
-    assert not ret.success
-    assert f"Usage: diameter-synthesis {command}" in ret.stderr
-    assert ret.stdout == ""
+    result = subprocess.run(
+        ["diameter-synthesis", command],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode != 0
+    assert f"Usage: diameter-synthesis {command}" in result.stderr
+    assert result.stdout == ""
 
 
-def test_run_models(tmpdir, single_pop_data_dir, single_pop_diametrized_data_dir, config):
+def test_run_models(tmp_path, single_pop_data_dir, single_pop_diametrized_data_dir, config):
     """Test the run_models entry point."""
     # Prepare inputs
     extract_models_params = config
     extract_models_params["mtypes_file"] = str(single_pop_data_dir / "neurondb.dat")
     extract_models_params["morph_path"] = str(single_pop_data_dir)
     extract_models_params["new_morph_path"] = str(single_pop_diametrized_data_dir)
-    extract_models_params["models_params_file"] = str(tmpdir / "model_params_mtypes.json")
-    extract_models_params["fig_folder"] = str(tmpdir / "model_figures")
+    extract_models_params["models_params_file"] = str(tmp_path / "model_params_mtypes.json")
+    extract_models_params["fig_folder"] = str(tmp_path / "model_figures")
     extract_models_params["n_cpu"] = 1
     extract_models_params["neurite_types"] = ["basal_dendrite", "apical_dendrite"]
 
-    config_file = str(tmpdir / "diametrizer_params.json")
+    config_file = str(tmp_path / "diametrizer_params.json")
     with open(config_file, "w", encoding="utf-8") as json_file:
         json.dump(extract_models_params, json_file, sort_keys=True, indent=4)
 
@@ -59,7 +64,7 @@ def test_run_models(tmpdir, single_pop_data_dir, single_pop_diametrized_data_dir
     runner.invoke(cli.main, ["run_models", config_file], catch_exceptions=False)
 
     # Check results
-    with open(extract_models_params["models_params_file"], "r", encoding="utf-8") as json_file:
+    with open(extract_models_params["models_params_file"], encoding="utf-8") as json_file:
         res = json.load(json_file)
 
     assert list(res.keys()) == ["generic"]
@@ -99,10 +104,10 @@ def test_run_models(tmpdir, single_pop_data_dir, single_pop_diametrized_data_dir
     )
 
 
-def test_run_diameters(tmpdir, single_pop_data_dir, config, model_params):
+def test_run_diameters(tmp_path, single_pop_data_dir, config, model_params):
     """Test the run_diameters entry point."""
     # Prepare inputs
-    res_path = Path(tmpdir / "new_morphologies")
+    res_path = Path(tmp_path / "new_morphologies")
     extract_models_params = config
     extract_models_params["mtypes_file"] = str(single_pop_data_dir / "neurondb.dat")
     extract_models_params["morph_path"] = str(single_pop_data_dir)
@@ -110,11 +115,11 @@ def test_run_diameters(tmpdir, single_pop_data_dir, config, model_params):
     extract_models_params["neurite_types"] = ["basal_dendrite", "apical_dendrite"]
     extract_models_params["new_morph_path"] = str(res_path)
 
-    config_file = str(tmpdir / "diametrizer_params.json")
+    config_file = str(tmp_path / "diametrizer_params.json")
     with open(config_file, "w", encoding="utf-8") as json_file:
         json.dump(extract_models_params, json_file, sort_keys=True, indent=4)
 
-    model_params_file = str(tmpdir / "model_params.json")
+    model_params_file = str(tmp_path / "model_params.json")
     with open(model_params_file, "w", encoding="utf-8") as json_file:
         json.dump({"generic": {"L5_TPC:A": model_params}}, json_file, sort_keys=True, indent=4)
 
@@ -142,9 +147,9 @@ def test_run_diametrize_single_neuron_basal(neuron):
     assert_almost_equal(neuron.root_sections[1].diameters, [1.627442, 1.6274352])
 
 
-def test_plot_diff(tmpdir, single_pop_data_dir, single_pop_diametrized_data_dir):
+def test_plot_diff(tmp_path, single_pop_data_dir, single_pop_diametrized_data_dir):
     """Test the plot_diff entry point."""
-    res_path = Path(tmpdir / "figures")
+    res_path = Path(tmp_path / "figures")
 
     # Run with CLI
     runner = CliRunner()
@@ -168,9 +173,9 @@ def test_plot_diff(tmpdir, single_pop_data_dir, single_pop_diametrized_data_dir)
     assert [i.name for i in (res_path / "diffs").iterdir()] == ["C030796A-P3_lite.pdf"]
 
 
-def test_run_analysis(tmpdir, single_pop_data_dir, single_pop_diametrized_data_dir):
+def test_run_analysis(tmp_path, single_pop_data_dir, single_pop_diametrized_data_dir):
     """Test the run_analysis entry point."""
-    res_path = Path(tmpdir / "figures")
+    res_path = Path(tmp_path / "figures")
 
     # Run with CLI
     runner = CliRunner()

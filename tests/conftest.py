@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=redefined-outer-name
 import json
 import shutil
 from pathlib import Path
@@ -110,21 +109,21 @@ def simpler_model_params(simpler_model_params_path):
 @pytest.fixture
 def model_data(test_data_path):
     """The model data."""
-    with open(test_data_path / "model_data.json", "r", encoding="utf-8") as filename:
+    with open(test_data_path / "model_data.json", encoding="utf-8") as filename:
         return json.load(filename)
 
 
 @pytest.fixture
 def astro_model_data(test_data_path):
     """The model data."""
-    with open(test_data_path / "astro_model_data.json", "r", encoding="utf-8") as filename:
+    with open(test_data_path / "astro_model_data.json", encoding="utf-8") as filename:
         return json.load(filename)
 
 
 @pytest.fixture
 def simpler_model_data(test_data_path):
     """The model data."""
-    with open(test_data_path / "simpler_model_data.json", "r", encoding="utf-8") as filename:
+    with open(test_data_path / "simpler_model_data.json", encoding="utf-8") as filename:
         return json.load(filename)
 
 
@@ -186,9 +185,9 @@ def single_pop_neurondb(single_pop_neurondb_dat_path):
 
 
 @pytest.fixture
-def single_pop_data_dir(tmpdir, single_pop_neurondb, neuron_path):
+def single_pop_data_dir(tmp_path, single_pop_neurondb, neuron_path):
     """Prepare test data."""
-    single_pop_dir = tmpdir / "single_pop"
+    single_pop_dir = tmp_path / "single_pop"
 
     single_pop_dir.mkdir()
     single_pop_neurondb.to_csv(single_pop_dir / "neurondb.dat", sep=" ", header=False, index=False)
@@ -199,10 +198,10 @@ def single_pop_data_dir(tmpdir, single_pop_neurondb, neuron_path):
 
 @pytest.fixture
 def single_pop_diametrized_data_dir(
-    tmpdir, single_pop_neurondb, neuron_path, neuron_diametrized_path
+    tmp_path, single_pop_neurondb, neuron_path, neuron_diametrized_path
 ):
     """Prepare test data with diametrized morphologies."""
-    single_pop_diametrized_dir = tmpdir / "single_pop_diametrized"
+    single_pop_diametrized_dir = tmp_path / "single_pop_diametrized"
     single_pop_diametrized_dir.mkdir()
     single_pop_neurondb.loc[0, "morphology"] += "_diametrized"
     single_pop_neurondb.to_csv(

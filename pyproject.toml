@@ -5,29 +5,120 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "diameter-synthesis"
+authors = [
+    {name = "Blue Brain Project, EPFL"},
+    {name = "Open Brain Institute"},
+]
+description = "Diametrize cells."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "click>=7.0",
+    "jsonschema>=3",
+    "matplotlib>=3.10,<3.11",
+    "morphio>=3.3.4",
+    "neurom>=3.0,<4.0",
+    "numpy>=1.23",
+    "pandas>=1.5",
+    "scipy>=1.10",
+    "tqdm>=4.50",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://diameter-synthesis.readthedocs.io"
+Tracker = "https://github.com/openbraininstitute/diameter-synthesis/issues"
+Source = "https://github.com/openbraininstitute/diameter-synthesis"
+
+[project.optional-dependencies]
+docs = [
+    "docutils<0.21",
+    "m2r2",
+    "sphinx>=8.2,<10",
+    "obi-sphinx-theme>=2.0.0",
+    "sphinx-jsonschema",
+    "sphinx_click",
+]
+plot = [
+    "seaborn>=0.13",
+]
+test = [
+    "diff_pdf_visually>=1.7.0",
+    "dictdiffer>=0.9",
+    "pytest>=6.1",
+    "pytest-click>=1.1",
+    "pytest-cov>=4.1",
+    "pytest-html>=3.2",
+    "pytest-xdist>=2",
+]
+
+[project.scripts]
+diameter-synthesis = "diameter_synthesis.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["diameter_synthesis*"]
+
 [tool.setuptools_scm]
 
-[tool.black]
+[tool.ruff]
 line-length = 100
-target-version = [
-    "py310",
-    "py311",
-    "py312",
-    "py313",
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "D",
+    "UP",
+    "B",
+    "SIM",
+    "RUF",
+]
+ignore = [
+    "D107",
+    "D417",
+    "E203",
+    "PLR0912",
+    "PLR0913",
+    "PLR0914",
+    "PLR0915",
+    "PLC0415",
+    "BLE001",
+    "SIM102",
+    "SIM108",
+    "SIM115",
+    "B904",
+    "B905",
+    "RUF015",
 ]
 
-[tool.pydocstyle]
-# ignore the following:
-#   - D107: Missing docstring in __init__
-add-ignore = [
-    "D107",
-]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.isort]
-profile = "black"
-line_length = 100
-force_single_line = true
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.format]
+quote-style = "double"
 
 [tool.pytest.ini_options]
 testpaths = [

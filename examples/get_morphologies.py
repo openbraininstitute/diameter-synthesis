@@ -36,7 +36,7 @@ def get_url(url):
     ctx.verify_mode = ssl.CERT_NONE
     ctx.set_ciphers("DEFAULT@SECLEVEL=1")
     req = Request(url)
-    response = urlopen(req, context=ctx)  # pylint: disable=consider-using-with
+    response = urlopen(req, context=ctx)
     return response
 
 

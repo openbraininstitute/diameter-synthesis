@@ -30,18 +30,16 @@ def _create_morphologies_dict_dat(morph_path, mtypes_file="neurondb.dat"):
     Returns:
         dict: dictionary of morphologies keyed by mtypes.
     """
-    # pylint wrongly determines `morph_name` as TextFileReader
-    # pylint: disable=no-member,possibly-used-before-assignment
     morph_name = pd.read_csv(mtypes_file, sep=r"\s+", header=None)
     name_dict = defaultdict(list)
     if not morph_name.empty:
-        first_name = morph_name.loc[0, 0]  # pylint: disable=no-member
+        first_name = morph_name.loc[0, 0]
         file_list = Path(morph_path).glob(first_name + "*")
         try:
             ext = next(file_list).suffix
         except StopIteration as e:
             raise DiameterSynthesisError(f"Could not find a file starting with {first_name}") from e
-    for morph in morph_name.values:  # pylint: disable=no-member
+    for morph in morph_name.values:
         name_dict[morph[2]] += [Path(morph_path) / (morph[0] + ext)]
     return name_dict
 
@@ -83,7 +81,7 @@ def _create_morphologies_dict_all(morph_path):
 def create_morphologies_dict(morph_path, mtypes_file=None):
     """Create dict to load the morphologies from a directory, by mtype.
 
-     Args:
+    Args:
         morph_path (str): path to morphologies.
         mtype_file (str): path to dat file.
 
@@ -194,7 +192,7 @@ def _create_morphologies_dict_json(
     prefix="",
 ):
     """Create dict to load the morphologies from a directory, with json."""
-    with open(mtypes_file, "r", encoding="utf-8") as filename:
+    with open(mtypes_file, encoding="utf-8") as filename:
         morph_name = json.load(filename)
 
     name_dict = {}
@@ -236,7 +234,7 @@ def _create_morphologies_dict_xml(
                 elif mtype in name_dict:
                     name_dict[mtype] += [prefix + morph.find("name").text + ext]
 
-            except Exception as exc:  # pylint: disable=broad-except
+            except Exception as exc:
                 L.exception("Failed to process %s", exc)
 
     return name_dict

@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import logging
-from functools import lru_cache
+from functools import cache
 
 import neurom as nm
 import numpy as np
@@ -26,19 +26,19 @@ def _segment_lengths(section):
     return np.linalg.norm(vectors, axis=1)
 
 
-@lru_cache(maxsize=None)
+@cache
 def sec_length(section):
     """Length of a section (morphio only)."""
     return _segment_lengths(section).sum()
 
 
-@lru_cache(maxsize=None)
+@cache
 def lengths_from_origin(section):
     """Path lengths from first point of section (morphio only)."""
     return np.insert(np.cumsum(_segment_lengths(section)), 0, 0)
 
 
-@lru_cache(maxsize=None)
+@cache
 def partition_asymmetry_length(section):
     """Compute partition asymmetry with lengths (morphio).
 
@@ -55,7 +55,7 @@ def partition_asymmetry_length(section):
     return abs(asymmetry_length)
 
 
-@lru_cache(maxsize=None)
+@cache
 def n_children_downstream(section):
     """Get the number of children of a section (morphio only)."""
     return sum(1 for _ in section.iter())
@@ -153,7 +153,6 @@ def max_diameter(neurite, attribute_name=None, bounds=None):
 
 def trunk_diameter(neurite, attribute_name=None, bounds=None, method="last"):
     """Get the trunc diameters (neurom only)."""
-    # pylint: disable=possibly-used-before-assignment
     if method == "mean":
         trunk_diam = _get_mean_diameter(neurite.root_node)
     if method == "first":
@@ -181,9 +180,7 @@ def taper(neurite, params, attribute_name=None):
     )
 
 
-def get_additional_attribute(
-    attribute_name, neurite=None, section=None
-):  # noqa, pylint: disable=too-many-return-statements,too-many-branches
+def get_additional_attribute(attribute_name, neurite=None, section=None):
     """Return the value of an additional attribute of a parameter, given a neurite or a section."""
     section_only = section is not None and neurite is None
     neurite_only = neurite is not None and section is None

@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=import-outside-toplevel,redefined-outer-name
 import logging
 import os
 from pathlib import Path

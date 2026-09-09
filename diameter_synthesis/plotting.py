@@ -33,8 +33,6 @@ from tqdm import tqdm
 from diameter_synthesis import utils
 from diameter_synthesis.distribution_fitting import evaluate_distribution
 
-# pylint: disable=too-many-statements,too-many-locals,too-many-arguments
-
 matplotlib.use("Agg")
 L = logging.getLogger(__name__)
 COLORS = {"basal_dendrite": "r", "apical_dendrite": "m", "axon": "b"}
@@ -220,9 +218,7 @@ def plot_distribution_fit(data, model, neurite_types, fig_name="test", ext=".png
     plt.close()
 
 
-def _create_data(
-    feature1, feature2, original_cells, diametrized_cells, step_size, neurite_types
-):  # noqa, pylint: disable=too-many-locals,too-many-arguments
+def _create_data(feature1, feature2, original_cells, diametrized_cells, step_size, neurite_types):
     def feature_data(cell, neurite_type):
         nm_neurite_type = getattr(NeuriteType, neurite_type)
         return [get(feat, cell, neurite_type=nm_neurite_type) for feat in (feature1, feature2)]
@@ -237,7 +233,6 @@ def _create_data(
         return bin_centers, bins
 
     def find_upper_bound(pairs):
-        # pylint: disable=nested-min-max
         return max(max(max(vals1), max(vals2)) for (vals1, _), (vals2, _) in pairs)
 
     def per_neurite_data(original_cells, diametrized_cells, neurite_types):
@@ -253,7 +248,7 @@ def _create_data(
     for _, data_pairs in enumerate(iter_neurite_data):
         try:
             upper_bound = find_upper_bound(data_pairs)
-        except BaseException:  # pylint: disable=broad-except
+        except BaseException:
             L.exception("failed to find upper bound, most likely due to no data points")
             upper_bound = 200
 
@@ -546,7 +541,7 @@ def transform2DataFrame(data, pop_names, flist):
 
 def plot_violins(data, x="Morphological features", y="Values", hues="Data", ax=None):
     """Plot the split violins of all features."""
-    import seaborn  # pylint: disable=import-outside-toplevel
+    import seaborn
 
     if ax is None:
         fig = plt.figure(figsize=(12, 6))
@@ -591,7 +586,7 @@ def violin_analysis(
     ]
     analyze_from_dict = partial(_analyze_from_dict, max_cells, with_axon=with_axon)
 
-    pool = multiprocessing.Pool()  # pylint: disable=consider-using-with
+    pool = multiprocessing.Pool()
     try:
         figs = list(
             tqdm(

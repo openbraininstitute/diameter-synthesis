@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# pylint: disable=import-outside-toplevel
 import logging
 
 import numpy as np
@@ -116,7 +115,7 @@ def fit_distribution(all_data, distribution, attribute_name=None, extra_params=N
             "scale": float(scale),
             "min": float(np.percentile(data, PERCENTILE)),
             "max": float(np.percentile(data, 100 - PERCENTILE)),
-            "num_value": int(len(data)),
+            "num_value": len(data),
         }
 
     if distribution == "gamma":
@@ -133,7 +132,7 @@ def fit_distribution(all_data, distribution, attribute_name=None, extra_params=N
             "scale": float(scale),
             "min": float(np.percentile(data, PERCENTILE)),
             "max": float(np.percentile(data, 100 - PERCENTILE)),
-            "num_value": int(len(data)),
+            "num_value": len(data),
         }
 
     raise DiameterSynthesisError("Distribution not understood")
@@ -149,7 +148,6 @@ def sample_distribution(model, rng=np.random):
     Returns:
         float: the value of the distribution at the given position.
     """
-    # pylint: disable=possibly-used-before-assignment
     if "a" in model["params"]:
         a_clip = np.clip(model["params"]["a"], A_MIN, A_MAX)
 
@@ -158,8 +156,8 @@ def sample_distribution(model, rng=np.random):
 
     if model["distribution"] == "expon_rev":
         return _truncate(
-            lambda: -(
-                model["params"]["loc"] + model["params"]["scale"] * rng.standard_exponential()
+            lambda: (
+                -(model["params"]["loc"] + model["params"]["scale"] * rng.standard_exponential())
             ),
             model["params"]["min"],
             model["params"]["max"],

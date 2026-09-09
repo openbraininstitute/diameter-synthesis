@@ -47,8 +47,14 @@ When you wish to contribute to the code base, please consider the following guid
   git checkout -b my-fix-branch main
   ```
 
-* Create your patch, **including appropriate test cases** (please note that the coverage must
-  always be equal to 100%).
+* Create your patch, **including appropriate test cases**. New code should keep total
+  coverage at or above **80%** (enforced by tox via `--cov-fail-under=80`).
+* Format and lint your changes before committing:
+
+  ```shell
+  tox -e format
+  ```
+
 * Run the full test suite, and ensure that all tests pass (at least with one of the required
   python interpreters):
 
@@ -80,7 +86,7 @@ When you wish to contribute to the code base, please consider the following guid
   component.
 * If we suggest changes then:
   * Make the required updates.
-  * Re-run the test suites to ensure tests are still passing.
+  * Re-run `tox -e format` and the test suites to ensure checks are still passing.
   * Rebase your branch and force push to your GitHub repository (this will update your Pull
     Request):
 
@@ -167,4 +173,4 @@ The release process is the following:
 
 After these steps the CI should automatically build the wheel and push it to pypi.
 
-[github]: git@github.com:BlueBrain/diameter-synthesis.git
+[github]: git@github.com:openbraininstitute/diameter-synthesis.git
